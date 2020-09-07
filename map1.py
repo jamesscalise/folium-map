@@ -2,11 +2,13 @@ import folium
 import pandas
 
 data = pandas.read_csv("Volcanoes.txt")
+name = list(data["NAME"])
 lat = list(data["LAT"])
 lon = list(data["LON"])
 elev = list(data["ELEV"])
 
 html = """<h4>Volcano information:</h4>
+Name: %s <br />
 Height: %s m
 """
 
@@ -24,8 +26,8 @@ fg = folium.FeatureGroup(name="My Map")
 
 
 
-for lt, ln, el in zip(lat, lon, elev):
-    iframe = folium.IFrame(html=html % str(el), width=200, height=100)
+for lt, ln, el, nm in zip(lat, lon, elev, name):
+    iframe = folium.IFrame(html=html % (nm, el), width=200, height=100)
     fg.add_child(folium.CircleMarker(radius=6, fill=True, location=[lt, ln], popup=folium.Popup(iframe), fill_opacity=0.7, color=color_producer(el)))
 
 
